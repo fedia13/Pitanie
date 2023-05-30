@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище user03ModelContainer" CdmEntityContainer="user03Entities1">
+    <EntitySetMapping Name="Pitanie">
+      <EntityTypeMapping TypeName="user03Model.Pitanie">
+        <MappingFragment StoreEntitySet="Pitanie">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Фото" ColumnName="Фото" />
+          <ScalarProperty Name="Наименование_товара" ColumnName="Наименование товара" />
+          <ScalarProperty Name="Описание_товара" ColumnName="Описание товара" />
+          <ScalarProperty Name="Производитель" ColumnName="Производитель" />
+          <ScalarProperty Name="Цена" ColumnName="Цена" />
+          <ScalarProperty Name="Размер_скидки" ColumnName="Размер скидки" />
+          <ScalarProperty Name="Количество" ColumnName="Количество" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Proizvoditel">
+      <EntityTypeMapping TypeName="user03Model.Proizvoditel">
+        <MappingFragment StoreEntitySet="Proizvoditel">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Производитель" ColumnName="Производитель" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vidacha">
+      <EntityTypeMapping TypeName="user03Model.Vidacha">
+        <MappingFragment StoreEntitySet="Vidacha">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Пункт_выдачи" ColumnName="Пункт выдачи" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Zakaz">
+      <EntityTypeMapping TypeName="user03Model.Zakaz">
+        <MappingFragment StoreEntitySet="Zakaz">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Дата_заказа" ColumnName="Дата заказа" />
+          <ScalarProperty Name="Номер_заказа" ColumnName="Номер заказа" />
+          <ScalarProperty Name="Состав_заказа" ColumnName="Состав заказа" />
+          <ScalarProperty Name="Сумма_заказа" ColumnName="Сумма заказа" />
+          <ScalarProperty Name="Сумма_скидки" ColumnName="Сумма скидки" />
+          <ScalarProperty Name="Пункт_выдачи" ColumnName="Пункт выдачи" />
+          <ScalarProperty Name="Код_получения" ColumnName="Код получения" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Zakazpit">
+      <EntityTypeMapping TypeName="user03Model.Zakazpit">
+        <MappingFragment StoreEntitySet="Zakazpit">
+          <ScalarProperty Name="ZakazID" ColumnName="ZakazID" />
+          <ScalarProperty Name="PitanieID" ColumnName="PitanieID" />
+          <ScalarProperty Name="Countigr" ColumnName="Countigr" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

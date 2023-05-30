@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="user03Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Pitanie">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Фото" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Наименование_товара" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Описание_товара" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Производитель" Type="Int32" />
+    <Property Name="Цена" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Размер_скидки" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Количество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Proizvoditel" Relationship="Self.FK_Igrushki_Proizvoditel" FromRole="Pitanie" ToRole="Proizvoditel" />
+    <NavigationProperty Name="Zakazpit" Relationship="Self.FK_Igruskizakaz_Igrushki" FromRole="Pitanie" ToRole="Zakazpit" />
+  </EntityType>
+  <EntityType Name="Proizvoditel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Производитель" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Pitanie" Relationship="Self.FK_Igrushki_Proizvoditel" FromRole="Proizvoditel" ToRole="Pitanie" />
+  </EntityType>
+  <EntityType Name="Vidacha">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Пункт_выдачи" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Zakaz" Relationship="Self.FK_Zakaz_Vidacha" FromRole="Vidacha" ToRole="Zakaz" />
+  </EntityType>
+  <EntityType Name="Zakaz">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Дата_заказа" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Номер_заказа" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Состав_заказа" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Сумма_заказа" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Сумма_скидки" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Пункт_выдачи" Type="Int32" />
+    <Property Name="Код_получения" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Vidacha" Relationship="Self.FK_Zakaz_Vidacha" FromRole="Zakaz" ToRole="Vidacha" />
+    <NavigationProperty Name="Zakazpit" Relationship="Self.FK_Igruskizakaz_Zakaz" FromRole="Zakaz" ToRole="Zakazpit" />
+  </EntityType>
+  <EntityType Name="Zakazpit">
+    <Key>
+      <PropertyRef Name="ZakazID" />
+      <PropertyRef Name="PitanieID" />
+    </Key>
+    <Property Name="ZakazID" Type="Int32" Nullable="false" />
+    <Property Name="PitanieID" Type="Int32" Nullable="false" />
+    <Property Name="Countigr" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Pitanie" Relationship="Self.FK_Igruskizakaz_Igrushki" FromRole="Zakazpit" ToRole="Pitanie" />
+    <NavigationProperty Name="Zakaz" Relationship="Self.FK_Igruskizakaz_Zakaz" FromRole="Zakazpit" ToRole="Zakaz" />
+  </EntityType>
+  <Association Name="FK_Igrushki_Proizvoditel">
+    <End Role="Proizvoditel" Type="Self.Proizvoditel" Multiplicity="0..1" />
+    <End Role="Pitanie" Type="Self.Pitanie" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proizvoditel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Pitanie">
+        <PropertyRef Name="Производитель" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Igruskizakaz_Igrushki">
+    <End Role="Pitanie" Type="Self.Pitanie" Multiplicity="1" />
+    <End Role="Zakazpit" Type="Self.Zakazpit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pitanie">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Zakazpit">
+        <PropertyRef Name="PitanieID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Zakaz_Vidacha">
+    <End Role="Vidacha" Type="Self.Vidacha" Multiplicity="0..1" />
+    <End Role="Zakaz" Type="Self.Zakaz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vidacha">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Zakaz">
+        <PropertyRef Name="Пункт_выдачи" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Igruskizakaz_Zakaz">
+    <End Role="Zakaz" Type="Self.Zakaz" Multiplicity="1" />
+    <End Role="Zakazpit" Type="Self.Zakazpit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Zakaz">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Zakazpit">
+        <PropertyRef Name="ZakazID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="user03Entities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Pitanie" EntityType="Self.Pitanie" />
+    <EntitySet Name="Proizvoditel" EntityType="Self.Proizvoditel" />
+    <EntitySet Name="Vidacha" EntityType="Self.Vidacha" />
+    <EntitySet Name="Zakaz" EntityType="Self.Zakaz" />
+    <EntitySet Name="Zakazpit" EntityType="Self.Zakazpit" />
+    <AssociationSet Name="FK_Igrushki_Proizvoditel" Association="Self.FK_Igrushki_Proizvoditel">
+      <End Role="Proizvoditel" EntitySet="Proizvoditel" />
+      <End Role="Pitanie" EntitySet="Pitanie" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Igruskizakaz_Igrushki" Association="Self.FK_Igruskizakaz_Igrushki">
+      <End Role="Pitanie" EntitySet="Pitanie" />
+      <End Role="Zakazpit" EntitySet="Zakazpit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Zakaz_Vidacha" Association="Self.FK_Zakaz_Vidacha">
+      <End Role="Vidacha" EntitySet="Vidacha" />
+      <End Role="Zakaz" EntitySet="Zakaz" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Igruskizakaz_Zakaz" Association="Self.FK_Igruskizakaz_Zakaz">
+      <End Role="Zakaz" EntitySet="Zakaz" />
+      <End Role="Zakazpit" EntitySet="Zakazpit" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

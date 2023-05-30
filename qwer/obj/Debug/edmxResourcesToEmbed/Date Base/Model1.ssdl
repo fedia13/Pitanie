@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище user03Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Pitanie">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Фото" Type="nvarchar" MaxLength="50" />
+    <Property Name="Наименование товара" Type="nvarchar" MaxLength="50" />
+    <Property Name="Описание товара" Type="nvarchar" MaxLength="50" />
+    <Property Name="Производитель" Type="int" />
+    <Property Name="Цена" Type="nvarchar" MaxLength="50" />
+    <Property Name="Размер скидки" Type="nvarchar" MaxLength="50" />
+    <Property Name="Количество" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Proizvoditel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Производитель" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Vidacha">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Пункт выдачи" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Zakaz">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Дата заказа" Type="nvarchar" MaxLength="50" />
+    <Property Name="Номер заказа" Type="nvarchar" MaxLength="50" />
+    <Property Name="Состав заказа" Type="nvarchar" MaxLength="50" />
+    <Property Name="Сумма заказа" Type="nvarchar" MaxLength="50" />
+    <Property Name="Сумма скидки" Type="nvarchar" MaxLength="50" />
+    <Property Name="Пункт выдачи" Type="int" />
+    <Property Name="Код получения" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Zakazpit">
+    <Key>
+      <PropertyRef Name="ZakazID" />
+      <PropertyRef Name="PitanieID" />
+    </Key>
+    <Property Name="ZakazID" Type="int" Nullable="false" />
+    <Property Name="PitanieID" Type="int" Nullable="false" />
+    <Property Name="Countigr" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK_Igrushki_Proizvoditel">
+    <End Role="Proizvoditel" Type="Self.Proizvoditel" Multiplicity="0..1" />
+    <End Role="Pitanie" Type="Self.Pitanie" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proizvoditel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Pitanie">
+        <PropertyRef Name="Производитель" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Igruskizakaz_Igrushki">
+    <End Role="Pitanie" Type="Self.Pitanie" Multiplicity="1" />
+    <End Role="Zakazpit" Type="Self.Zakazpit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pitanie">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Zakazpit">
+        <PropertyRef Name="PitanieID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Igruskizakaz_Zakaz">
+    <End Role="Zakaz" Type="Self.Zakaz" Multiplicity="1" />
+    <End Role="Zakazpit" Type="Self.Zakazpit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Zakaz">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Zakazpit">
+        <PropertyRef Name="ZakazID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Zakaz_Vidacha">
+    <End Role="Vidacha" Type="Self.Vidacha" Multiplicity="0..1" />
+    <End Role="Zakaz" Type="Self.Zakaz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vidacha">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Zakaz">
+        <PropertyRef Name="Пункт выдачи" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище user03ModelContainer">
+    <EntitySet Name="Pitanie" EntityType="Self.Pitanie" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Proizvoditel" EntityType="Self.Proizvoditel" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Vidacha" EntityType="Self.Vidacha" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Zakaz" EntityType="Self.Zakaz" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Zakazpit" EntityType="Self.Zakazpit" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Igrushki_Proizvoditel" Association="Self.FK_Igrushki_Proizvoditel">
+      <End Role="Proizvoditel" EntitySet="Proizvoditel" />
+      <End Role="Pitanie" EntitySet="Pitanie" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Igruskizakaz_Igrushki" Association="Self.FK_Igruskizakaz_Igrushki">
+      <End Role="Pitanie" EntitySet="Pitanie" />
+      <End Role="Zakazpit" EntitySet="Zakazpit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Igruskizakaz_Zakaz" Association="Self.FK_Igruskizakaz_Zakaz">
+      <End Role="Zakaz" EntitySet="Zakaz" />
+      <End Role="Zakazpit" EntitySet="Zakazpit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Zakaz_Vidacha" Association="Self.FK_Zakaz_Vidacha">
+      <End Role="Vidacha" EntitySet="Vidacha" />
+      <End Role="Zakaz" EntitySet="Zakaz" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
